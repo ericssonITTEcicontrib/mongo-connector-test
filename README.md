@@ -14,3 +14,8 @@ container image of mongo connector, MongoDB
 * Contributors understand and accept that all contributions are made to this project with explicit understanding that contributors
 only contribute their original work and transfer all rights, privileges and copyrights associated with these contributions
 to Ericsson Canada Inc.
+
+## Running tests
+```{r, engine='bash', test}
+$ ./gradlew clean cucumber
+```
