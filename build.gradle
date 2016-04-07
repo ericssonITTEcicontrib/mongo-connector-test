@@ -8,7 +8,10 @@
  */
 
 // Apply the java plugin to add support for Java
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'com.github.samueltbrown.cucumber' version '0.9'
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -21,6 +24,8 @@ repositories {
 dependencies {
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.13'
+    compile 'org.apache.logging.log4j:log4j-core:2.1'
+    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.1'
     compile 'com.jayway.restassured:rest-assured:2.9.0'
     compile 'org.assertj:assertj-core:3.3.0'
 
@@ -28,5 +33,19 @@ dependencies {
     // TestNG is also supported by the Gradle Test task. Just change the
     // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
     // 'test.useTestNG()' to your build script.
-    testCompile 'junit:junit:4.12'
+    // compile instead of testCompile: intellij happiness
+    // caused by special folder layout of cucumber plugin
+    compile 'junit:junit:4.12'
+    compile 'info.cukes:cucumber-java:1.2.4'
+    compile 'info.cukes:cucumber-junit:1.2.4'
+
+    //compileOnly is supported in gradle 2.12 but it might be required
+    // in cucumber folder
+    compile "org.projectlombok:lombok:1.16.8"
+}
+
+cucumber {
+    formats = ['pretty','junit:build/cucumber.xml']
+    //not working for the current version
+    //glueDirs = ['src/test/java/']
 }
