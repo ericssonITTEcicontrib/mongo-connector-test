@@ -7,6 +7,7 @@ import com.jayway.restassured.parsing.Parser;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import lombok.extern.log4j.Log4j2;
 import org.bson.Document;
 import org.hamcrest.Matchers;
 
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Util class for MongoDB
  */
-public class MongoUtil {
+@Log4j2 public class MongoUtil {
 
     private static final String REPL_SET_GET_STATUS_PATH = "/replSetGetStatus";
 
@@ -33,25 +34,23 @@ public class MongoUtil {
      */
     public static void checkReplicaSet(String mongoIP, int mongoHttpPort, String hostname,
         int mongoPort) {
-
         String base_uri = Params.HTTP + mongoIP;
+        log.info("checkReplicaSet: " + base_uri);
         String expected_name = hostname + Params.COLON + mongoPort;
-        RestAssured.given().baseUri(base_uri).port(mongoHttpPort).
-            get(REPL_SET_GET_STATUS_PATH).then().assertThat().statusCode(200).contentType(
-            ContentType.JSON)
-            //.log().body()
-            .body("members", Matchers
-                .hasItem(Matchers.hasEntry(Matchers.is("name"), Matchers.is(expected_name))));
+        RestAssured.given().log().path().baseUri(base_uri).port(mongoHttpPort).
+            get(REPL_SET_GET_STATUS_PATH).then().log().ifError().assertThat().statusCode(200)
+            .contentType(ContentType.JSON).body("members",
+            Matchers.hasItem(Matchers.hasEntry(Matchers.is("name"), Matchers.is(expected_name))));
     }
 
     /**
      * create ten person documents in mongo server
      * <p>
-     *     using db {@link Params#TEST_MONGO} and collection {@link Params#PERSON}
+     * using db {@link Params#TEST_MONGO} and collection {@link Params#PERSON}
      * </p>
      *
-     * @param mongoIP the ip of the mongo server
-     * @param mongoPort the port of the mongo server
+     * @param mongoIP       the ip of the mongo server
+     * @param mongoPort     the port of the mongo server
      * @param mongoHttpPort the port for the rest api of the mongo server
      */
     public static void create10Persons(String mongoIP, int mongoPort, int mongoHttpPort) {

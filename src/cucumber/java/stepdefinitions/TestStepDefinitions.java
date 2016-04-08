@@ -6,13 +6,12 @@ import com.ericsson.itte.mongoconnectortest.util.MongoUtil;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import lombok.extern.slf4j.Slf4j;
 
 
 /**
  * Step definitions for functional tests
  */
-@Slf4j public class TestStepDefinitions {
+public class TestStepDefinitions {
 
     @Given("^replica set on the mongo server has been initiated$")
     public void replica_set_on_the_mongo_server_has_been_initiated() throws Throwable {
