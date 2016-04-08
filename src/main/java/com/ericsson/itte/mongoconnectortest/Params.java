@@ -4,8 +4,7 @@ package com.ericsson.itte.mongoconnectortest;
  * Useful constants
  */
 public class Params {
-    // "142.133.111.170" "127.0.0.1"
-    public static final String MONGO_IP = "142.133.111.170";
+    public static final String MONGO_IP = "127.0.0.1";
     public static final int MONGO_HTTP_PORT = 28017;
     public static final String MONGO_HOSTNAME = "my-mongo";
     public static final int MONGO_PORT = 27017;
