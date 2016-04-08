@@ -8,6 +8,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import lombok.extern.log4j.Log4j2;
+import org.apache.http.HttpStatus;
 import org.bson.Document;
 import org.hamcrest.Matchers;
 
@@ -38,7 +39,7 @@ import java.util.List;
         log.info("checkReplicaSet: " + base_uri);
         String expected_name = hostname + Params.COLON + mongoPort;
         RestAssured.given().log().path().baseUri(base_uri).port(mongoHttpPort).
-            get(REPL_SET_GET_STATUS_PATH).then().log().ifError().assertThat().statusCode(200)
+            get(REPL_SET_GET_STATUS_PATH).then().log().ifError().assertThat().statusCode(HttpStatus.SC_OK)
             .contentType(ContentType.JSON).body("members",
             Matchers.hasItem(Matchers.hasEntry(Matchers.is("name"), Matchers.is(expected_name))));
     }
@@ -67,7 +68,7 @@ import java.util.List;
         // content type is not that precise from mongo-http interface
         RestAssured.registerParser(Params.MIME_TYPE_TEXT_PLAIN, Parser.JSON);
         RestAssured.given().contentType(ContentType.JSON).baseUri(base_uri).port(mongoHttpPort).
-            get(Params.TEST_MONGO_PERSON_PATH).then().assertThat().statusCode(200).
+            get(Params.TEST_MONGO_PERSON_PATH).then().assertThat().statusCode(HttpStatus.SC_OK).
             //contentType(ContentType.JSON).
                 body("total_rows", Matchers.greaterThanOrEqualTo(10));
         RestAssured.unregisterParser("text/plain");
