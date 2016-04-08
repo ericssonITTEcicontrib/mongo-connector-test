@@ -16,13 +16,13 @@ es:
 
 #docker run --link some-mongo:mongodb -d mongo-repl-util
 mongo-repl-util:
-  image: ericssoneitte/mongo-replication-utility
+  image: ericssoneitte/mongo-replication-utility:3.2
   links:
    - mongodb
 
 #docker run --link some-mongo:my-mongo --link some-es:es -d mongoconnector
 mongoconnector:
-  image: ericssoneitte/mongo-connector
+  image: ericssoneitte/mongo-connector:2.3
   links:
    - mongodb:my-mongo
    - es
