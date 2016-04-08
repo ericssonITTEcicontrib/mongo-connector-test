@@ -1,0 +1,28 @@
+#docker-compose -f docker-compose-mongoconnector.yml up
+mongodb:
+  command: '--replSet "rs0" --rest'
+  hostname: my-mongo
+  image: mongo:3.2
+  ports:
+   - "27017:27017"
+   - "28017:28017"
+
+#docker run --name some-es -d -p 9200:9200 -p 9300:9300 elasticsearch:2.2
+es:
+  image: elasticsearch:2.2
+  ports:
+   - "9200:9200"
+   - "9300:9300"
+
+#docker run --link some-mongo:mongodb -d mongo-repl-util
+mongo-repl-util:
+  image: ericssoneitte/mongo-replication-utility:3.2
+  links:
+   - mongodb
+
+#docker run --link some-mongo:my-mongo --link some-es:es -d mongoconnector
+mongoconnector:
+  image: ericssoneitte/mongo-connector:2.3
+  links:
+   - mongodb:my-mongo
+   - es
