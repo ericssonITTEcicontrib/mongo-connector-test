@@ -21,7 +21,10 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Root level="debug">
+        <Logger name="com.ericsson.itte.mongoconnectortest" level="trace" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="warn">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File"/>
         </Root>

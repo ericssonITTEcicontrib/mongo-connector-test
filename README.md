@@ -20,5 +20,6 @@ to Ericsson Canada Inc.
 
 ## Running tests
 ```{r, engine='bash', test}
+$ docker-compose -f docker-compose-mongoconnector.yml up -d
 $ ./gradlew clean cucumber
 ```

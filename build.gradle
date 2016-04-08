@@ -50,5 +50,8 @@ cucumber {
     //not working for the current version
     //glueDirs = ['src/test/java/']
     // TODO remove when all defined bdds are implemented
-    tags = ['@test_replica_set_config']
+    // syntax below as wiki of the plugin does not work
+    // tags = ['@test_replica_set_config', '@test_mc_create']
+    // need to be like this
+    tags = ['@test_replica_set_config, @test_mc_create']
 }
