@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * General Utility class
  */
-@Log4j2 public class Util {
+@Log4j2 public class CommonUtil {
     /**
      * thread sleep for the given {@code seconds} seconds
      * <p>

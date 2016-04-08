@@ -2,9 +2,9 @@ package stepdefinitions;
 
 
 import com.ericsson.itte.mongoconnectortest.Params;
+import com.ericsson.itte.mongoconnectortest.util.CommonUtil;
 import com.ericsson.itte.mongoconnectortest.util.ESUtil;
 import com.ericsson.itte.mongoconnectortest.util.MongoUtil;
-import com.ericsson.itte.mongoconnectortest.util.Util;
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -16,15 +16,27 @@ import cucumber.api.java.en.When;
 
 /**
  * Step definitions for functional tests
+ * <p>
+ * Note:
+ * The verifications/assertions are implemented in the related util methods.
+ * We lose readability, ie, we have to reach the util classes to see what is going on.
+ * However, if we keep them as private methods in this class,
+ * then this class blows up quickly.
+ *
+ * The idea of making a step class for each feature is great.
+ * But some claims might occur in many features.
+ *
+ * Let us think about how to improve.
+ * </p>
  */
 public class TestStepDefinitions {
 
     @Before public void beforeScenario() {
-        Util.cleanUp("beforeScenario");
+        CommonUtil.cleanUp("beforeScenario");
     }
 
     @After public void afterScenario() {
-        Util.cleanUp("afterScenario");
+        CommonUtil.cleanUp("afterScenario");
     }
 
     @Given("^replica set on the mongo server has been initiated$")
@@ -70,7 +82,7 @@ public class TestStepDefinitions {
 
     @When("^I query es after (\\d+) seconds$") public void I_query_es_after_seconds(int arg1)
         throws Throwable {
-        Util.sleep(arg1);
+        CommonUtil.sleep(arg1);
     }
 
     @Then("^I see all created documents$") public void I_see_all_created_documents()
