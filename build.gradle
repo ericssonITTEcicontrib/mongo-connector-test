@@ -49,4 +49,6 @@ cucumber {
     formats = ['pretty','junit:build/cucumber.xml']
     //not working for the current version
     //glueDirs = ['src/test/java/']
+    // TODO remove when all defined bdds are implemented
+    tags = ['@test_replica_set_config']
 }
