@@ -1,4 +1,6 @@
 # mongo-connector-test
+[build status]: https://travis-ci.org/ericssonITTEcicontrib/mongo-connector-test.svg?branch=master "Travis CI Status"
+
 Test mongo connector plugin with Elastic Search and MongoDB using Rest Assured, AspectJ, ElasticSearch REST and MongoDB APIs.
 * Mongo Connector is containerized and is under docker/mongo-connector folder
 * Mongo Replicate Config is containerized and is under docker/mongo-repl-util folder
