@@ -62,7 +62,7 @@ import org.hamcrest.Matchers;
         String base_uri = Params.HTTP + esIP;
 
         RestAssured.given().log().path().log().body().baseUri(base_uri).port(esHttpPort).
-            get(Params.TESTMONGO_SEARCH_PATH).then().log().ifError().assertThat()
+            get(Params.TESTMONGO_SEARCH_PATH).then().assertThat()
             .statusCode(HttpStatus.SC_NOT_FOUND);
 
     }
