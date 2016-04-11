@@ -3,6 +3,7 @@ package com.ericsson.itte.mongoconnectortest.util;
 import com.ericsson.itte.mongoconnectortest.Params;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -34,5 +35,16 @@ import java.util.concurrent.TimeUnit;
         MongoUtil.cleanUp(Params.MONGO_IP, Params.MONGO_PORT, Params.MONGO_HTTP_PORT);
         sleep(10);
         ESUtil.noIndex(Params.ES_IP, Params.ES_PORT);
+    }
+
+    /**
+     * get a random number
+     *
+     * @param bound the upper bound (exclusive).  Must be positive.
+     * @return an {@code int} value between zero (inclusive) and {@code bound} (exclusive)
+     */
+    public static int getRandomInt(int bound) {
+        Random random = new Random();
+        return random.nextInt(bound);
     }
 }

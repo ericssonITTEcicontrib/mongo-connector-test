@@ -7,6 +7,8 @@ import com.jayway.restassured.parsing.Parser;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpStatus;
 import org.bson.Document;
@@ -74,7 +76,7 @@ import java.util.List;
     private static List<Document> get10PersonDocs() {
         List<Document> docs = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            docs.add(new Document("name", Integer.toString(i)));
+            docs.add(new Document(Params.NAME, i));
         }
         return docs;
     }
@@ -103,6 +105,40 @@ import java.util.List;
             get(Params.TEST_MONGO_PERSON_PATH).then().assertThat().statusCode(HttpStatus.SC_OK).
             //contentType(ContentType.JSON).
                 body("total_rows", Matchers.equalTo(0));
+        RestAssured.unregisterParser("text/plain");
+    }
+
+    /**
+     * update a person documents in mongo server
+     * <p>
+     * using db {@link Params#TEST_MONGO} and collection {@link Params#PERSON}
+     * </p>
+     *
+     * @param mongoIP       the ip of the mongo server
+     * @param mongoPort     the port of the mongo server
+     * @param mongoHttpPort the port for the rest api of the mongo server
+     * @param oldName       the old name of the person to update
+     * @param newName       the new name of the person to update
+     */
+    public static void update1Person(String mongoIP, int mongoPort, int mongoHttpPort, int oldName, int newName) {
+
+        MongoClient mongoClient = new MongoClient(mongoIP, mongoPort);
+        MongoDatabase database = mongoClient.getDatabase(Params.TEST_MONGO);
+        MongoCollection<Document> collection = database.getCollection(Params.PERSON);
+        collection.updateOne(Filters.eq(Params.NAME, oldName), Updates
+            .set(Params.NAME, newName));
+        mongoClient.close();
+        // verify
+        // http://10.10.10.3:28017/testmongo/person/?filter_name=sadf
+        String base_uri = Params.HTTP + mongoIP;
+
+        // content type is not that precise from mongo-http interface
+        RestAssured.registerParser(Params.MIME_TYPE_TEXT_PLAIN, Parser.JSON);
+        RestAssured.given().log().path().contentType(ContentType.JSON).baseUri(base_uri).port(mongoHttpPort)
+            .queryParam(Params.FILTER + Params.UNDERLINE + Params.NAME, newName)
+            .get(Params.TEST_MONGO_PERSON_PATH).then().assertThat().statusCode(HttpStatus.SC_OK).
+            //contentType(ContentType.JSON).
+                body("total_rows", Matchers.equalTo(1));
         RestAssured.unregisterParser("text/plain");
     }
 }
