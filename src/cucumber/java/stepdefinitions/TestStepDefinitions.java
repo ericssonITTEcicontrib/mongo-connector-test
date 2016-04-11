@@ -92,20 +92,18 @@ public class TestStepDefinitions {
 
     @Given("^that there are (\\d+) documents in the mongo server$")
     public void that_there_are_documents_in_the_mongo_server(int arg1) throws Throwable {
-        // Express the Regexp above with the code you wish you had
-        throw new PendingException();
+        MongoUtil.create10Persons(Params.MONGO_IP, Params.MONGO_PORT, Params.MONGO_HTTP_PORT);
     }
 
     @When("^I update randomly one of the documents in the mongo server$")
     public void I_update_randomly_one_of_the_documents_in_the_mongo_server() throws Throwable {
-        // Express the Regexp above with the code you wish you had
-        throw new PendingException();
+        int oldIndex = CommonUtil.getRandomInt(10);
+        MongoUtil.update1Person(Params.MONGO_IP, Params.MONGO_PORT, Params.MONGO_HTTP_PORT, oldIndex, Params.SPECIAL_INDEX);
     }
 
     @Then("^I see the document updated$") public void I_see_the_document_updated()
         throws Throwable {
-        // Express the Regexp above with the code you wish you had
-        throw new PendingException();
+        ESUtil.check1Persons(Params.ES_IP, Params.ES_PORT, Params.SPECIAL_INDEX);
     }
 
     @When("^I delete randomly one of the documents in the mongo server$")
