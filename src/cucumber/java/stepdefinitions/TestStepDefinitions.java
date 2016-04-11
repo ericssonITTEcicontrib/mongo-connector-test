@@ -108,13 +108,12 @@ public class TestStepDefinitions {
 
     @When("^I delete randomly one of the documents in the mongo server$")
     public void I_delete_randomly_one_of_the_documents_in_the_mongo_server() throws Throwable {
-        // Express the Regexp above with the code you wish you had
-        throw new PendingException();
+        int index = CommonUtil.getRandomInt(10);
+        MongoUtil.delete1Person(Params.MONGO_IP, Params.MONGO_PORT, Params.MONGO_HTTP_PORT, index);
     }
 
     @Then("^I see the document deleted$") public void I_see_the_document_deleted()
         throws Throwable {
-        // Express the Regexp above with the code you wish you had
-        throw new PendingException();
+        ESUtil.check9Persons(Params.ES_IP, Params.ES_PORT);
     }
 }

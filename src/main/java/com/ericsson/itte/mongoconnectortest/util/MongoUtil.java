@@ -141,4 +141,36 @@ import java.util.List;
                 body("total_rows", Matchers.equalTo(1));
         RestAssured.unregisterParser("text/plain");
     }
+
+    /**
+     * delete 1 person document in mongo server
+     * <p>
+     * using db {@link Params#TEST_MONGO} and collection {@link Params#PERSON}
+     * </p>
+     *
+     * @param mongoIP       the ip of the mongo server
+     * @param mongoPort     the port of the mongo server
+     * @param mongoHttpPort the port for the rest api of the mongo server
+     * @param name          the name of the person to delete
+     */
+    public static void delete1Person(String mongoIP, int mongoPort, int mongoHttpPort, int name) {
+
+        MongoClient mongoClient = new MongoClient(mongoIP, mongoPort);
+        MongoDatabase database = mongoClient.getDatabase(Params.TEST_MONGO);
+        MongoCollection<Document> collection = database.getCollection(Params.PERSON);
+        collection.deleteOne(Filters.eq(Params.NAME, name));
+        mongoClient.close();
+        // verify
+        // http://10.10.10.3:28017/testmongo/person/?filter_name=sadf
+        String base_uri = Params.HTTP + mongoIP;
+
+        // content type is not that precise from mongo-http interface
+        RestAssured.registerParser(Params.MIME_TYPE_TEXT_PLAIN, Parser.JSON);
+        RestAssured.given().log().path().contentType(ContentType.JSON).baseUri(base_uri).port(
+            mongoHttpPort)
+            .get(Params.TEST_MONGO_PERSON_PATH).then().assertThat().statusCode(HttpStatus.SC_OK).
+            //contentType(ContentType.JSON).
+                body("total_rows", Matchers.equalTo(9));
+        RestAssured.unregisterParser("text/plain");
+    }
 }

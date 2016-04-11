@@ -53,5 +53,5 @@ cucumber {
     // syntax below as wiki of the plugin does not work
     // tags = ['@test_replica_set_config', '@test_mc_create']
     // need to be like this
-    tags = ['@test_replica_set_config, @test_mc_create, @test_mc_update']
+    tags = ['@test_replica_set_config, @test_mc_create, @test_mc_update, @test_mc_delete']
 }
