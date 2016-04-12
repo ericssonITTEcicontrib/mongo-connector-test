@@ -87,4 +87,21 @@ import org.hamcrest.Matchers;
             .statusCode(HttpStatus.SC_OK).contentType(ContentType.JSON)
             .body("hits.total", Matchers.greaterThanOrEqualTo(1));
     }
+
+    /**
+     * check if 9 documents for persons are in the es server
+     * <p>
+     * using index {@link Params#TEST_MONGO} and type {@link Params#PERSON}
+     * </p>
+     *
+     * @param esIP       the ip of the es server
+     * @param esHttpPort the http port of the es server
+     */
+    public static void check9Persons(String esIP, int esHttpPort) {
+        String base_uri = Params.HTTP + esIP;
+        RestAssured.given().log().path().log().body().baseUri(base_uri).port(esHttpPort).
+            get(Params.TESTMONGO_PERSON_SEARCH_PATH).then().log().ifError().assertThat()
+            .statusCode(HttpStatus.SC_OK).contentType(ContentType.JSON)
+            .body("hits.total", Matchers.greaterThanOrEqualTo(9));
+    }
 }
