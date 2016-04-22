@@ -1,3 +1,4 @@
+[comment]: <> (This is a comment, it will not be included)
 # mongo-connector-test
 
 [![Build Status](https://travis-ci.org/ericssonITTEcicontrib/mongo-connector-test.svg?branch=master)](https://travis-ci.org/ericssonITTEcicontrib/mongo-connector-test)
