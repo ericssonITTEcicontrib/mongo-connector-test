@@ -17,6 +17,10 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - docker-compose -f docker-compose-mongoconnector.yml up -d
+  - sudo pip install codecov
 
 script:
   - ./gradlew cucumber
+
+after_success:
+  - codecov
